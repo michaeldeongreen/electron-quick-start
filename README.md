@@ -28,8 +28,33 @@ npm install
 # Run the app
 npm start
 ```
-
 Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+
+## How to run Dockerfile
+
+### Option 1 - Headless
+
+```bash
+docker build -t local/electron-quick-start &&
+docker run local/electron-quick-start
+```
+
+### Option 2 - Share Host x11
+
+change entry.sh to:
+
+```bash
+#!/bin/bash
+
+echo launching electron application
+
+electron main.js
+```
+
+```bash
+docker build -t local/electron-quick-start &&
+docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" local/electron-quick-start
+```
 
 ## Resources for Learning Electron
 
@@ -39,6 +64,8 @@ Note: If you're using Linux Bash for Windows, [see this guide](https://www.howto
 - [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
 - [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
 - [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
+- [magnitus/electron-app](https://hub.docker.com/r/magnitus/electron-app/dockerfile) - sample electron docker file
+- [electron linux dependencies](https://github.com/electron/electron/blob/master/docs/development/build-instructions-linux.md) - electron linux dependencies
 
 ## License
 
