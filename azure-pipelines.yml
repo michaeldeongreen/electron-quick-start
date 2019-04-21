@@ -10,10 +10,12 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- script: docker build -t headlessappsdev.azurecr.io/electron-quick-start .
+- script: docker build -t $(acr.username).azurecr.io/electron-quick-start .
   displayName: 'Step 1 -Build Docker Image'
 
-- script: docker push headlessappsdev.azurecr.io/electron-quick-start
-  displayName: 'Step 2 - PUsh Docker Image to ACR'
+- script: |
+    docker login -u $(acr.username) -p $(acr.password) $(acr.username).azurecr.io
+    docker push $(acr.username).azurecr.io/electron-quick-start
+  displayName: 'Step 2 - Push Docker Image to ACR'
   env:
     pswd: $(acr.password)
