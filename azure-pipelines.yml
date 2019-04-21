@@ -19,3 +19,14 @@ steps:
   displayName: 'Step 2 - Push Docker Image to ACR'
   env:
     pswd: $(acr.password)
+
+- task: CopyFiles@2
+  displayName: 'Step 3 - Copy ARM Template to Artifacts Directory'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/arm-templates'
+    Contents: |
+     **/*.json
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Step 4 - Publish Build Artifacts'
