@@ -1,0 +1,21 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- script: docker build -t $(acr.username).azurecr.io/electron-quick-start .
+  displayName: 'Step 1 -Build Docker Image'
+
+- script: |
+    docker login -u $(acr.username) -p $(acr.password) $(acr.username).azurecr.io
+    docker push $(acr.username).azurecr.io/electron-quick-start
+  displayName: 'Step 2 - Push Docker Image to ACR'
+  env:
+    pswd: $(acr.password)
