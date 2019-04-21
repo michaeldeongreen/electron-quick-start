@@ -10,10 +10,10 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: docker build -t headlessappsdev.azurecr.io/electron-quick-start .
+  displayName: 'Step 1 -Build Docker Image'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- script: docker push headlessappsdev.azurecr.io/electron-quick-start
+  displayName: 'Step 2 - PUsh Docker Image to ACR'
+  env:
+    pswd: $(acr.password)
