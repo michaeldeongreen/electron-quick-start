@@ -53,7 +53,25 @@
           "always",
           "onfailure"
         ]
-      }
+      },
+      "acrLoginServer": {
+        "type": "string",
+        "metadata": {
+          "description": "ACR Login Server"
+        }        
+      },      
+      "acrUsername": {
+        "type": "string",
+        "metadata": {
+          "description": "ACR Username"
+        }        
+      },
+      "acrPassword": {
+        "type": "string",
+        "metadata": {
+          "description": "ACR Password"
+        }        
+      }      
     },
     "variables": {},
     "resources": [
@@ -92,7 +110,14 @@
                 "port": "[parameters('port')]"
               }
             ]
-          }
+          },
+          "imageRegistryCredentials": [
+            {
+              "server": "[parameters('acrLoginServer')]",
+              "username": "[parameters('acrUsername')]",
+              "password": "[parameters('acrPassword')]"
+            }
+          ]          
         }
       }
     ],
