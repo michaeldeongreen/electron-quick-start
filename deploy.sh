@@ -28,6 +28,8 @@ echo "logging into acr"
 acrUsername="$(az acr credential show -n $acrName --query username --output tsv)"
 acrPassword="$(az acr credential show -n $acrName --query passwords[0].value --output tsv)"
 
+echo "Username: $acrUsername Password: $acrPassword"
+
 az acr login -u $acrUsername -p $acrPassword -n headlessappsdev
 
 echo "pulling tagged version $acrImageTag"
