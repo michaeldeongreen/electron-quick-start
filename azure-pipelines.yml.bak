@@ -9,12 +9,23 @@ trigger:
 pool:
   vmImage: 'Ubuntu-16.04'
 
+steps:
+- script: docker build -t $(acr.username).azurecr.io/electron-quick-start .
+  displayName: 'Step 1 -Build Docker Image'
+
+- script: |
+    docker login -u $(acr.username) -p $(acr.password) $(acr.username).azurecr.io
+    docker push $(acr.username).azurecr.io/electron-quick-start
+  displayName: 'Step 2 - Push Docker Image to ACR'
+  env:
+    pswd: $(acr.password)
+
 - task: CopyFiles@2
   displayName: 'Step 3 - Copy ARM Template to Artifacts Directory'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
+    SourceFolder: '$(Build.SourcesDirectory)/arm-templates'
     Contents: |
-     **/*.sh
+     **/*.json
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
