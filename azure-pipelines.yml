@@ -9,6 +9,7 @@ trigger:
 pool:
   vmImage: 'Ubuntu-16.04'
 
+steps:
 - task: CopyFiles@2
   displayName: 'Step 3 - Copy ARM Template to Artifacts Directory'
   inputs:
